@@ -1,0 +1,113 @@
+@import "../styles-variables.scss";
+
+.wrapper {
+    text-align: center;
+    height: 100vh;
+    background-color: $black;
+    position: relative;
+    
+    .logo {
+        background-image: url("../assets/hogwart-logo.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        opacity: 0.4;
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .main-title {
+        position: absolute;
+        top: 2em;
+        left: 2em;
+        color: $white;
+        font-size: 1.5em;
+    }
+}
+
+.input-wrapper {
+    color: $font-white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    font-size: 2em;
+
+    input {
+        max-width: 70px;
+        font-size: 1em;
+    }
+
+    label {
+        font-weight: 700;
+    }
+}
+
+.selector-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: $font-white;
+
+    .houses-indicator {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1em;
+        font-size: 1.1em;
+        color: $font-white;
+
+        .house {
+            width: 40%;
+        }
+    }
+
+    .play-button {
+        margin-top: 10em;
+
+        .button-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            button {
+                font-size: 1em;
+                margin-top: 10px;
+            }
+        }
+    }
+}
+
+.draw-result {
+    span {
+        font-size: 1em;
+    }
+    strong {
+        font-size: 2em;
+        font-weight: 700;
+    }
+}
+
+.cancel-button {
+    position: absolute;
+    top: 2em;
+    right: 2em;
+}
+
+@media screen and (min-width: 800px) {
+    .houses-indicator {
+        font-size: 2em;
+    }
+  }
