@@ -33,6 +33,7 @@ export class AppComponent {
       this.list = this.shuffle(this.list);
       this.listIsReady = true;
       this.peoplesRemaining = this.list.length;
+      setTimeout(()=>window.scrollTo(0, 0), 20);
     }
   }
 
