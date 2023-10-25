@@ -37,7 +37,9 @@ export class AppComponent implements OnInit {
     this.soundtrackAudio.loop = true,
     this.soundtrackAudio.load();
     this.soundtrackAudio.volume = 0.5;
+    this.soundtrackAudio.muted = true;
     this.soundtrackAudio.play();
+    this.soundtrackAudio.muted = false;
   }
 
   acceptPeopleAmount(): void {
@@ -194,17 +196,8 @@ export class AppComponent implements OnInit {
   }
 
   toggleMuteSoundtrack(): void {
-    if (!this.soundtrackIsMuted) {
-      this.soundtrackAudio.volume = 0;
-      this.soundtrackIsMuted = true;
-    } else {
-      if (!this.peopleAmount) {
-        this.soundtrackAudio.volume = 0.5;
-      } else {
-        this.soundtrackAudio.volume = 0.05;
-      }
-      this.soundtrackIsMuted = false;
-    }
+    this.soundtrackIsMuted = !this.soundtrackIsMuted;
+    this.soundtrackAudio.muted = this.soundtrackIsMuted;
   }
 
 }
