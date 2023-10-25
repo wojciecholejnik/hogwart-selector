@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   list: Person[] = [];
 
   soundtrackAudio = new Audio(`../assets/harry_potter_soundtrack_loop.mp3`);
-  soundtrackIsMuted = false;
+  soundtrackIsMuted = true;
 
 
   ngOnInit(): void {
@@ -37,9 +37,6 @@ export class AppComponent implements OnInit {
     this.soundtrackAudio.loop = true,
     this.soundtrackAudio.load();
     this.soundtrackAudio.volume = 0.5;
-    this.soundtrackAudio.muted = true;
-    this.soundtrackAudio.play();
-    this.soundtrackAudio.muted = false;
   }
 
   acceptPeopleAmount(): void {
@@ -196,6 +193,7 @@ export class AppComponent implements OnInit {
   }
 
   toggleMuteSoundtrack(): void {
+    this.soundtrackAudio.play();
     this.soundtrackIsMuted = !this.soundtrackIsMuted;
     this.soundtrackAudio.muted = this.soundtrackIsMuted;
   }
