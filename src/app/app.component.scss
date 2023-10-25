@@ -106,6 +106,18 @@
     right: 2em;
 }
 
+.settings {
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+}
+
+.next-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen and (min-width: 800px) {
     .houses-indicator {
         font-size: 2em;

@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   peopleAmount?: number;
   peopleAmountAccepted = false;
@@ -15,15 +15,30 @@ export class AppComponent {
 
   jinglePlaying = false;
   message = '';
-
+  houseAudio = new Audio();
+  
   housesIndicator: { [key: string]: number; } = {
     gryffindor: 0,
     hufflepuff: 0,
     ravenclaw: 0,
     slytherin: 0
   }
-
   list: Person[] = [];
+
+  soundtrackAudio = new Audio(`../assets/harry_potter_soundtrack_loop.mp3`);
+  soundtrackIsMuted = false;
+
+
+  ngOnInit(): void {
+    this.playSoundtrackAudio();
+  }
+
+  playSoundtrackAudio(): void {
+    this.soundtrackAudio.loop = true,
+    this.soundtrackAudio.load();
+    this.soundtrackAudio.volume = 0.5;
+    this.soundtrackAudio.play();
+  }
 
   acceptPeopleAmount(): void {
     if (this.peopleAmount && this.peopleAmount > 0) {
@@ -33,6 +48,7 @@ export class AppComponent {
       this.list = this.shuffle(this.list);
       this.listIsReady = true;
       this.peoplesRemaining = this.list.length;
+      this.soundtrackAudio.volume = 0.05;
       setTimeout(()=>window.scrollTo(0, 0), 20);
     }
   }
@@ -78,15 +94,14 @@ export class AppComponent {
     const ravenclawList = listToEdit.splice(0, peoplePerHouse).map(item => addHouse(item, HouseName.ravenclaw));
     const slytherinList = listToEdit.splice(0, peoplePerHouse).map(item => addHouse(item, HouseName.slytherin));
 
-    listToEdit.forEach(item => {
-      const random = this.getRandomNumber(1,4)
-      if (random === 1) {
+    listToEdit.forEach((item, index) => {
+      if (index === 0) {
         gryffindorList.push({...item, house: HouseName.gryffindor})
-      } else if (random === 2) {
+      } else if (index === 1) {
         gryffindorList.push({...item, house: HouseName.hufflepuff})
-      } else if (random === 3) {
+      } else if (index === 2) {
         gryffindorList.push({...item, house: HouseName.ravenclaw})
-      } else if (random === 4) {
+      } else if (index === 3) {
         gryffindorList.push({...item, house: HouseName.slytherin})
       }
     }) 
@@ -95,7 +110,6 @@ export class AppComponent {
   }
 
   playAudio(audioType: string): void {
-    let audio = new Audio();
     const gryfindorAudioVariationsAmount = 2;
     const hufflepuffAudioVariationsAmount = 2;
     const ravenclawAudioVariationsAmount = 2;
@@ -110,14 +124,21 @@ export class AppComponent {
     } else if (audioType === HouseName.slytherin) {
       audioVariant = this.getRandomNumber(1, slytherinAudioVariationsAmount).toString();
     }
-    audio.src = `../assets/${audioType}-${audioVariant}.mp3`;
-    audio.load();
-    audio.play();
-    audio.onended = () => {
+    this.houseAudio.src = `../assets/${audioType}-${audioVariant}.mp3`;
+    this.houseAudio.load();
+    this.houseAudio.play();
+    this.houseAudio.onended = () => {
       this.jinglePlaying = false;
       this.message = '';
       this.list.shift();
     }
+  }
+
+  skipHouseAudio(): void {
+    this.houseAudio.pause();
+    this.jinglePlaying = false;
+      this.message = '';
+      this.list.shift();
   }
 
   draw(): void {
@@ -169,6 +190,21 @@ export class AppComponent {
     }
   
     this.list = [];
+    this.soundtrackAudio.volume = 0.5;
+  }
+
+  toggleMuteSoundtrack(): void {
+    if (!this.soundtrackIsMuted) {
+      this.soundtrackAudio.volume = 0;
+      this.soundtrackIsMuted = true;
+    } else {
+      if (!this.peopleAmount) {
+        this.soundtrackAudio.volume = 0.5;
+      } else {
+        this.soundtrackAudio.volume = 0.05;
+      }
+      this.soundtrackIsMuted = false;
+    }
   }
 
 }
